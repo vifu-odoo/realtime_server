@@ -1,6 +1,7 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, List
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
@@ -66,3 +67,8 @@ async def websocket_endpoint(websocket: WebSocket, tracking_id: str):
     except Exception as e:
         print("Error:", e)
         disconnect(websocket, tracking_id)
+
+@app.get("/driver", response_class=HTMLResponse)
+def driver_page():
+    with open("driver.html", "r") as f:
+        return f.read()
